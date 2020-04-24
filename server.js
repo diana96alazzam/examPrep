@@ -24,9 +24,10 @@ app.set('view engine', 'ejs');
 
 app.get('/', getPeople )
 app.get('/add', getForm);
+app.get('/people/:person_id', getPerson)
 app.post('/add', addPerson);
-app.put('/update', updatePerson);
-app.delete('/delete', deletePerson);
+app.put('/update/:person_id', updatePerson);
+app.delete('/delete/:person_id', deletePerson);
 app.use('*', notFoundHandler);
 
 
@@ -35,7 +36,7 @@ function getPeople(request, response){
     client.query(SQL).then((resultList)=> {
         response.render('index', {people: resultList.rows});
     }).catch((err) => {
-        errorHandler(err, req, res);
+        errorHandler(err, request, response);
       });
 }
 
@@ -61,19 +62,38 @@ function addPerson(request, response){
         }
 
     }).catch((err) => {
-        errorHandler(err, req, res);
-      });
+        errorHandler(err, request, response);
+      });    
+}
 
 
-    
-}
-function updatePerson(request, response){
-    
-}
 function getPerson(request, response){
     
+    const SQL = 'SELECT * FROM preptable WHERE id=$1;'
+    const values = [request.params.person_id];
+    client.query(SQL, values).then((results)=> {
+        response.render('detail', { person: results.rows[0] })
+    })  
+    
 }
+
+
+function updatePerson(request, response){
+
+    const SQL = 'UPDATE preptable SET name=$1, age=$2 WHERE id=$3; '
+    const values = [request.body.formName, request.body.formAge, request.params.person_id];
+    client.query(SQL, values).then((result)=> {
+        response.redirect(`/people/${request.params.person_id}`);
+    }).catch((err) => errorHandler(err, request, response));
+}
+
+
 function deletePerson(request, response){
+    const SQL = 'DELETE FROM preptable WHERE id=$1;'
+    const values = [request.params.person_id];
+    client.query(SQL, values).then((result)=> {
+        response.redirect('/');
+    })
     
 }
 

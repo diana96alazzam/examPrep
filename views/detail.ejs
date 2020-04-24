@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>Basic INFO</h1>
+
+    </header>
+    <main>
+
+        <ul>
+            <li><%= person.name%></li>
+            <li><%= person.age%></li>
+            <form action="/update/<%=person.id%>?_method=PUT" method="post">
+                <legend>Update Form</legend>
+                <label for="">Name: <input type="text" value="<%= person.name%>" name="formName"></label>
+                <label for="">Name: <input type="number" value="<%= person.age%>" name="formAge"></label>
+
+                <button type="submit">Update</button>
+
+            </form>
+            <form action="/delete/<%=person.id%>?_method=DELETE" method="post">
+                <button type="submit">Delete</button>
+
+            </form>
+            <a href="/"> Back to main page.</a>
+
+        </ul>
+
+    </main>
+    <footer>
+        <p>@test2020</p>
+    </footer>
+
+</body>
+
+</html>

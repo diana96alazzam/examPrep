@@ -16,8 +16,8 @@
         </form>    
         <ul>
             <%people.forEach(person=> {%>
-                <li><%=person.name%></li>
-                <li><%=person.age%></li>
+                <li>Name: <%=person.name%> - Age: <%=person.age%> years old.</li>
+                <a href="/people/<%=person.id%>">View Details</a>
             <%})%>
         </ul>
     </main>
