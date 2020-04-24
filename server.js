@@ -22,25 +22,27 @@ app.set('view engine', 'ejs');
 
 
 
-app.get('/', (request, response)=> {
-    response.render('add-view');
-
-})
-app.get('/', getPerson);
+app.get('/', getPeople )
+app.get('/add', getForm);
 app.post('/add', addPerson);
 app.put('/update', updatePerson);
 app.delete('/delete', deletePerson);
 app.use('*', notFoundHandler);
 
 
-function getPerson(request, response){
+function getPeople(request, response){
     const SQL = 'SELECT * FROM preptable;'
-    client.query(SQL).then((reultList)=> {
-        response.render('index', {people: reultList.rows});
-
-    })
-
+    client.query(SQL).then((resultList)=> {
+        response.render('index', {people: resultList.rows});
+    }).catch((err) => {
+        errorHandler(err, req, res);
+      });
 }
+
+function getForm (request, response){
+    response.render('add-view');
+}
+
 function addPerson(request, response){
     let name = request.body.formName;
     let age = request.body.formAge;

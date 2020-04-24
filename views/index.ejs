@@ -10,7 +10,10 @@
         <h1>Basic INFO</h1>
 
     </header>
-    <main>      
+    <main>  
+        <form action="/add">
+            <button type="submit">ADD Person</button>
+        </form>    
         <ul>
             <%people.forEach(person=> {%>
                 <li><%=person.name%></li>
